@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+using namespace std;
 int const size = 256;
 struct Subject {
     char* name = nullptr;
@@ -6,7 +7,7 @@ struct Subject {
     int sizeRating = 0;
 };
 struct Student {
-    Subject* sub = nullptr;
+    Subject** sub = nullptr;
     char* name = nullptr;
     char* family = nullptr;
     char* patrinim = nullptr;
@@ -16,6 +17,7 @@ struct Student {
 };
 struct List {
     Student** list = nullptr;
+    int sizeSub = 0;
     int sizeList = 0;
 };
 char* regDown(const char* buffer) {
@@ -85,6 +87,28 @@ void sortStudent(List* list) {
             }
         }
     } while (prov);
+}
+
+double avgRatingStud(List* list, int index, int group) {
+    if (index < 0 || index > list->sizeSub) {
+        cout << "GROUP ERROR\n";
+        return;
+    }
+    if (group < 0) {
+        cout << "GROUP ERROR\n";
+        return;
+    }
+    int sum = 0;
+    int size = 0;
+    for (int a = 0; list->sizeSub; a++) {
+        if (list->list[a]->group == group) {
+            for(int b = 0; b < list->list[a]->sub[a]->sizeRating; b++) {
+                size++;
+                sum += list->list[a]->sub[index]->rating[b];
+            }
+        }
+    }
+    return sum / (double)size;
 }
 int main()
 {
